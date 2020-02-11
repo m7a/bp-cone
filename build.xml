@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project default="build">
+
+<!-- APPLICATION METADATA -->
+<property name="mdpc.name"    value="mdvl-cone-ma"/>
+<property name="mdpc.section" value="mail"/>
+<property name="mdpc.descrs"  value="COnsole Newsreader and Emailer"/>
+<property name="mdpc.arch"    value="any"/>
+<property name="mdpc.descrl">
+ Cone is a text-based mail client. Cone seamlessly handles multiple
+ POP3, IMAP accounts, and local mail folders. Cone is also a simple
+ newsreader. Cone's interface is foolproof enough to be used by
+ inexperienced users, but it also offers advanced features for power
+ users.
+ .
+ Beyond others cone has support for PGP, GPG, UTF-8, IMAP, POP3,
+ incoming HTML mails, external viewers, NNTP, SOCKS 5, SSL/TLS, SASL,
+ LDAP and IMAP based address books, remote storable configuration,
+ multiple accounts, tagging mails with several different flags, and
+ SMAP (Simple Mail Access Protocol, a new IMAP and POP3 replacement
+ developed by the Courier guys and supported by the Courier
+ development versions).
+</property>
+<!--
+	Note: There is nowhere a clear indication. Every source file has
+	different years. Here we assume it goes till 2019...
+-->
+<property name="mdpc.copyright"
+			value="Copyright 2003-2018, Double Precision Inc."/>
+<property name="mdpc.lblock">
+License:
+ This software is released under the GPL, version 3 (see COPYING.GPL).
+ Additionally, compiling, linking, and/or using the OpenSSL toolkit in
+ conjunction with this software is allowed. 
+</property>
+
+<property name="mdpc.file.install">
+cone_ma /usr/bin
+build/cone-1.0/COPYING.GPL /usr/share/doc/mdvl-cone-ma
+</property>
+
+<!-- PART OF TPL HERE FOR USE IN BUILD -->
+<property environment="env"/>
+<condition property="masysma.internal.includepath.rel" value="${env.MDVL_CI_PHOENIX_ROOT}" else=".."><isset property="env.MDVL_CI_PHOENIX_ROOT"/></condition>
+<property name="masysma.internal.includepath" location="${masysma.internal.includepath.rel}"/>
+
+<!-- SPECIFIC BUILD -->
+<target name="download">
+	<masysma_require_artifact masysmaartifact="cone-1.0.tar.bz2" masysmaatarget="build" masysmaadef="https://sourceforge.net/projects/courier/files/cone/1.0/cone-1.0.tar.bz2"/>
+	<masysma_require_artifact masysmaartifact="courier-unicode-2.1.tar.bz2" masysmaatarget="build" masysmaadef="https://sourceforge.net/projects/courier/files/courier-unicode/2.1/courier-unicode-2.1.tar.bz2"/>
+</target>
+
+<target name="build" depends="download">
+	<dirname property="subroot" file="${ant.file}"/>
+	<exec executable="./configure" dir="build/courier-unicode-2.1">
+		<arg value="--prefix=/usr"/>
+	</exec>
+	<exec executable="make" dir="build/courier-unicode-2.1">
+		<arg value="-j10"/>
+	</exec>
+	<delete>
+		<fileset dir="build/courier-unicode-2.1/.libs">
+			<include name="*.so"/>
+		</fileset>
+	</delete>
+	<copy tofile="build/courier-unicode-2.1/.libs/libcourier-unicode.so"
+		file="build/courier-unicode-2.1/.libs/libcourier-unicode.a"/>
+	<exec executable="./configure" dir="build/cone-1.0">
+		<arg value="--prefix=/usr"/>
+		<arg value="CPPFLAGS=-I${subroot}/build/courier-unicode-2.1"/>
+		<arg value="LDFLAGS=-L${subroot}/build/courier-unicode-2.1/.libs"/>
+		<arg value="--with-notice=unicode"/>
+	</exec>
+	<exec executable="make" dir="build/cone-1.0">
+		<arg value="-j10"/>
+	</exec>
+	<copy tofile="cone_ma" file="build/cone-1.0/cone/cone"/>
+</target>
+
+<target name="clean"><delete dir="build"/></target>
+<target name="dist-clean" depends="clean"><delete file="cone_ma"/></target>
+
+<!-- CI INTEGRATION -->
+<target name="package_triggered" depends="package">
+	<property name="masysma.ci.trigger" value="newver"/>
+</target>
+<target name="package_triggered_i386" depends="package">
+	<property name="masysma.ci.trigger"     value="newver"/>
+	<property name="masysma.ci.runenv"      value="ssh"/>
+	<property name="masysma.ci.runenv.name" value="i386"/>
+</target>
+
+<!-- TPL IMPORT (PARTIALLY GIVEN ABOVE) -->
+<property name="masysma.internal.loadpath" value="${masysma.internal.includepath}/co-build/ant-build-template.xml"/>
+<condition property="masysma.internal.load" value="file://${masysma.internal.loadpath}" else="https://raw.githubusercontent.com/m7a/co-build/master/ant-build-template.xml"><resourceexists><file file="${masysma.internal.loadpath}"/></resourceexists></condition>
+<import><url url="${masysma.internal.load}"/></import>
+
+</project>

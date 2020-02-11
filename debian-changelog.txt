@@ -1,0 +1,43 @@
+mdvl-cone-ma (1.0.6) stable; urgency=medium
+
+  * Update to cone 1.0
+
+ -- Linux-Fan <Ma_Sys.ma@web.de>  Wed, 10 Jul 2019 01:50:25 +0200
+
+mdvl-cone-ma (1.0.5) stable; urgency=medium
+
+  * Improve patch to no longer close and open the pipe from inside the
+    event loop.
+
+ -- Linux-Fan <Ma_Sys.ma@web.de>  Tue, 27 Mar 2018 21:03:10 +0200
+
+mdvl-cone-ma (1.0.4) stable; urgency=medium
+
+  * Fix patch to react immediately.
+
+ -- Linux-Fan <Ma_Sys.ma@web.de>  Mon, 26 Mar 2018 23:39:17 +0200
+
+mdvl-cone-ma (1.0.3) stable; urgency=medium
+
+  * Fix patch application (?)
+
+ -- Linux-Fan <Ma_Sys.ma@web.de>  Sun, 25 Mar 2018 20:50:17 +0200
+
+mdvl-cone-ma (1.0.2) stable; urgency=medium
+
+  * Update to new Cone version and change patch to now poll a named
+    pipe instead of relying on signals.
+
+ -- Linux-Fan <Ma_Sys.ma@web.de>  Sun, 25 Mar 2018 20:30:10 +0200
+
+mdvl-cone-ma (1.0.1) stable; urgency=medium
+
+  * update to new library versions.
+
+ -- Linux-Fan <Ma_Sys.ma@web.de>  Sun, 21 Jan 2018 01:06:29 +0100
+
+mdvl-cone-ma (1.0.0) stable; urgency=medium
+
+  * mdvl-cone-ma initialized.
+
+ -- Linux-Fan <Ma_Sys.ma@web.de>  Sun, 12 Feb 2017 21:52:39 +0100
