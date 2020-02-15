@@ -1,0 +1,30 @@
+CR = cone-1.0
+CU = courier-unicode-2.1
+SUBR = $(shell pwd)
+
+cone: unicode
+	tar -xf $(CR).tar.bz2
+	cd $(CR) && ./configure --prefix=/usr CPPFLAGS="-I$(SUBR)/$(CU)" \
+			LDFLAGS="-L$(SUBR)/$(CU)/.libs" --with-notice=unicode
+	make -C $(CR) -j10
+	cp $(CR)/cone/.libs/cone cone
+
+unicode:
+	tar -xf $(CU).tar.bz2
+	cd $(CU) && ./configure --prefix=/usr
+	make -C $(CU) -j10
+	rm $(CU)/.libs/*.so*
+	cp $(CU)/.libs/libcourier-unicode.a $(CU)/.libs/libcourier-unicode.so
+
+install:
+	[ -d $(DESTDIR)/usr/bin ] || mkdir -p $(DESTDIR)/usr/bin
+	install -T cone $(DESTDIR)/usr/bin/cone_ma
+
+clean:
+	-rm -r $(CR) $(CU)
+
+dist-clean: clean
+	-rm cone
+
+uninstall:
+	rm $(DESTDIR)/usr/bin/cone_ma
