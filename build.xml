@@ -46,7 +46,7 @@ build/cone-1.0/COPYING.GPL /usr/share/doc/mdvl-cone-ma
 
 <!-- SPECIFIC BUILD -->
 <target name="download">
-	<masysma_require_artifact masysmaartifact="cone-1.0.tar.bz2" masysmaatarget="build" masysmaadef="https://sourceforge.net/projects/courier/files/cone/1.0/cone-1.0.tar.bz2"/>
+	<masysma_require_artifact masysmaartifact="cone-1.1.tar.bz2" masysmaatarget="build" masysmaadef="https://sourceforge.net/projects/courier/files/cone/1.1/cone-1.1.tar.bz2/download"/>
 	<masysma_require_artifact masysmaartifact="courier-unicode-2.1.tar.bz2" masysmaatarget="build" masysmaadef="https://sourceforge.net/projects/courier/files/courier-unicode/2.1/courier-unicode-2.1.tar.bz2"/>
 </target>
 
