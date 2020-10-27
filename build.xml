@@ -36,7 +36,7 @@ License:
 
 <property name="mdpc.file.install">
 cone_ma /usr/bin
-build/cone-1.0/COPYING.GPL /usr/share/doc/mdvl-cone-ma
+build/cone-1.1/COPYING.GPL /usr/share/doc/mdvl-cone-ma
 </property>
 
 <!-- PART OF TPL HERE FOR USE IN BUILD -->
@@ -67,21 +67,21 @@ build/cone-1.0/COPYING.GPL /usr/share/doc/mdvl-cone-ma
 	</delete>
 	<copy tofile="build/courier-unicode-2.1/.libs/libcourier-unicode.so"
 		file="build/courier-unicode-2.1/.libs/libcourier-unicode.a"/>
-	<exec executable="./configure" dir="build/cone-1.0" failonerror="true">
+	<exec executable="./configure" dir="build/cone-1.1" failonerror="true">
 		<arg value="--prefix=/usr"/>
 		<arg value="CPPFLAGS=-I${subroot}/build/courier-unicode-2.1"/>
 		<arg value="LDFLAGS=-L${subroot}/build/courier-unicode-2.1/.libs"/>
 		<arg value="--with-notice=unicode"/>
 	</exec>
-	<exec executable="make" dir="build/cone-1.0" failonerror="true">
+	<exec executable="make" dir="build/cone-1.1" failonerror="true">
 		<arg value="-j10"/>
 	</exec>
 	<!--
 		As it seems, sometimes this will be a "wrapper script".
 		Instread, copy from .libs subdirectory
-		<copy tofile="cone_ma" file="build/cone-1.0/cone/cone"/>
+		<copy tofile="cone_ma" file="build/cone-1.1/cone/cone"/>
 	-->
-	<copy tofile="cone_ma" file="build/cone-1.0/cone/.libs/cone"/>
+	<copy tofile="cone_ma" file="build/cone-1.1/cone/.libs/cone"/>
 </target>
 
 <target name="clean"><delete dir="build"/></target>
