@@ -28,7 +28,7 @@
 <property name="mdpc.copyright"
 			value="Copyright 2003-2018, Double Precision Inc."/>
 <property name="mdpc.lblock">
-License:
+License: GPL with OpenSSL exception.
  This software is released under the GPL, version 3 (see COPYING.GPL).
  Additionally, compiling, linking, and/or using the OpenSSL toolkit in
  conjunction with this software is allowed. 
