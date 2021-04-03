@@ -34,9 +34,12 @@ License: GPL with OpenSSL exception.
  conjunction with this software is allowed. 
 </property>
 
+<property name="ver.cone" value="1.2"/>
+<property name="ver.unicode" value="2.2.3"/>
+
 <property name="mdpc.file.install">
 cone_ma /usr/bin
-build/cone-1.1/COPYING.GPL /usr/share/doc/mdvl-cone-ma
+build/cone-${ver.cone}/COPYING.GPL /usr/share/doc/mdvl-cone-ma
 </property>
 
 <!-- PART OF TPL HERE FOR USE IN BUILD -->
@@ -46,42 +49,42 @@ build/cone-1.1/COPYING.GPL /usr/share/doc/mdvl-cone-ma
 
 <!-- SPECIFIC BUILD -->
 <target name="download">
-	<masysma_require_artifact masysmaartifact="cone-1.1.tar.bz2" masysmaatarget="build" masysmaadef="https://sourceforge.net/projects/courier/files/cone/1.1/cone-1.1.tar.bz2/download"/>
-	<masysma_require_artifact masysmaartifact="courier-unicode-2.1.tar.bz2" masysmaatarget="build" masysmaadef="https://sourceforge.net/projects/courier/files/courier-unicode/2.1/courier-unicode-2.1.tar.bz2"/>
+	<masysma_require_artifact masysmaartifact="cone-${ver.cone}.tar.bz2" masysmaatarget="build" masysmaadef="https://sourceforge.net/projects/courier/files/cone/${ver.cone}/cone-${ver.cone}.tar.bz2/download"/>
+	<masysma_require_artifact masysmaartifact="courier-unicode-${ver.unicode}.tar.bz2" masysmaatarget="build" masysmaadef="https://sourceforge.net/projects/courier/files/courier-unicode/${ver.unicode}/courier-unicode-${ver.unicode}.tar.bz2"/>
 </target>
 
 <target name="build" depends="download">
 	<dirname property="subroot" file="${ant.file}"/>
-	<exec executable="./configure" dir="build/courier-unicode-2.1"
-							failonerror="true">
+	<exec executable="./configure"
+	dir="build/courier-unicode-${ver.unicode}" failonerror="true">
 		<arg value="--prefix=/usr"/>
 	</exec>
-	<exec executable="make" dir="build/courier-unicode-2.1"
+	<exec executable="make" dir="build/courier-unicode-${ver.unicode}"
 							failonerror="true">
 		<arg value="-j10"/>
 	</exec>
 	<delete>
-		<fileset dir="build/courier-unicode-2.1/.libs">
+		<fileset dir="build/courier-unicode-${ver.unicode}/.libs">
 			<include name="*.so"/>
 		</fileset>
 	</delete>
-	<copy tofile="build/courier-unicode-2.1/.libs/libcourier-unicode.so"
-		file="build/courier-unicode-2.1/.libs/libcourier-unicode.a"/>
-	<exec executable="./configure" dir="build/cone-1.1" failonerror="true">
+	<copy tofile="build/courier-unicode-${ver.unicode}/.libs/libcourier-unicode.so" file="build/courier-unicode-${ver.unicode}/.libs/libcourier-unicode.a"/>
+	<exec executable="./configure" dir="build/cone-${ver.cone}"
+							failonerror="true">
 		<arg value="--prefix=/usr"/>
-		<arg value="CPPFLAGS=-I${subroot}/build/courier-unicode-2.1"/>
-		<arg value="LDFLAGS=-L${subroot}/build/courier-unicode-2.1/.libs"/>
+		<arg value="CPPFLAGS=-I${subroot}/build/courier-unicode-${ver.unicode}"/>
+		<arg value="LDFLAGS=-L${subroot}/build/courier-unicode-${ver.unicode}/.libs"/>
 		<arg value="--with-notice=unicode"/>
 	</exec>
-	<exec executable="make" dir="build/cone-1.1" failonerror="true">
+	<exec executable="make" dir="build/cone-${ver.cone}" failonerror="true">
 		<arg value="-j10"/>
 	</exec>
 	<!--
 		As it seems, sometimes this will be a "wrapper script".
-		Instread, copy from .libs subdirectory
+		Instead, copy from .libs subdirectory
 		<copy tofile="cone_ma" file="build/cone-1.1/cone/cone"/>
 	-->
-	<copy tofile="cone_ma" file="build/cone-1.1/cone/.libs/cone"/>
+	<copy tofile="cone_ma" file="build/cone-${ver.cone}/cone/.libs/cone"/>
 </target>
 
 <target name="clean"><delete dir="build"/></target>
