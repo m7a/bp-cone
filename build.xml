@@ -34,8 +34,8 @@ License: GPL with OpenSSL exception.
  conjunction with this software is allowed. 
 </property>
 
-<property name="ver.cone" value="1.2"/>
-<property name="ver.unicode" value="2.2.3"/>
+<property name="ver.cone" value="1.6"/>
+<property name="ver.unicode" value="2.2.4"/>
 
 <property name="mdpc.file.install">
 cone_ma /usr/bin
